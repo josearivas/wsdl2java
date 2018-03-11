@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://soa.fonasa.cl/mensajes/cuentaMedicaInteroperable" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="cuentaMedicaInteroperable" targetNamespace="http://soa.fonasa.cl/mensajes/cuentaMedicaInteroperable">
+	<wsdl:types>
+		<xsd:schema elementFormDefault="qualified" targetNamespace="http://soa.fonasa.cl/mensajes/cuentaMedicaInteroperable">
+			<xsd:element name="mensajeHL7Request" type="tns:mensajeHL7RequestType">
+			</xsd:element>
+			<xsd:element name="mensajeHL7Response" type="tns:mensajeHL7ResponseType">
+			</xsd:element>
+			<xsd:complexType name="mensajeHL7RequestType">
+				<xsd:sequence>
+					<xsd:element name="tramaDatos" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="mensajeHL7ResponseType">
+				<xsd:sequence>
+					<xsd:element name="tramaDatos" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="requestMessage">
+		<wsdl:part element="tns:mensajeHL7Request" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="replyMessage">
+		<wsdl:part element="tns:mensajeHL7Response" name="parameters"/>
+	</wsdl:message>
+	<wsdl:portType name="cuentaMedicaInteroperable_ptt">
+		<wsdl:operation name="cuentaMedicaInteroperable">
+			<wsdl:input message="tns:requestMessage"/>
+			<wsdl:output message="tns:replyMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="cuentaMedicaInteroperable_bind" type="tns:cuentaMedicaInteroperable_ptt">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="cuentaMedicaInteroperable">
+			<soap:operation soapAction="http://soa.fonasa.cl/mensajes/cuentaMedicaInteroperable"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="FONASAcuentaMedicaInteroperableSEC">
+		<wsdl:port binding="tns:cuentaMedicaInteroperable_bind" name="cuentaMedicaInteroperable_bindQSPort">
+			<soap:address location="https://wscs.fonasa.cl:8444/FONASASEC/CuentaMedica/FONASAcuentaMedicaInteroperable"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
